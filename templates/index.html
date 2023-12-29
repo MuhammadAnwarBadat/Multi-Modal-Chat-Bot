@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100vh;
+            justify-content: flex-end;
+        }
+        .container{
+            width: 70%;
+            height: 100vh;
+            justify-content: flex-end;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            /* border: 1px solid red; */
+            align-items: center;
+        }
+
+        #chat-container {
+            width: 90%;
+          margin: 10px auto;
+           /* border: 1px solid green; */
+          
+            background-color: #fff;
+           
+       
+            border-radius: 8px;
+            overflow: hidden;
+           margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+        
+        }
+
+        #chat-messages {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message-user {
+            justify-content: flex-end;
+        }
+
+        .message-bot {
+            justify-content: flex-start;
+        }
+
+        .message-text {
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .user-icon, .bot-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-icon {
+            background-color: #3498db;
+        }
+
+        .bot-icon {
+            background-color: #2ecc71;
+        }
+
+        #user-input {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            outline: none;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div id="chat-container">
+            
+            <div class="chatbot">
+                
+
+                <div id="chat-messages">
+                    <!-- Chat messages will be dynamically added here -->
+                </div>
+            </div>
+            <input type="text" id="user-input" placeholder="Type your question...">
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for handling user input and displaying chat messages
+        const userInput = document.getElementById('user-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        userInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                const userMessage = userInput.value.trim();
+                if (userMessage !== '') {
+                    // You can add logic here to process the user message and get the bot's response
+                    const botResponse = 'This is a sample response from the chatbot.';
+                    appendUserMessage(userMessage);
+                    appendBotMessage(botResponse);
+                    userInput.value = '';
+                    // Scroll to the bottom of the chat window
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }
+        });
+
+        function appendUserMessage(message) {
+            const messageContainer = createMessageContainer('user');
+            const messageText = createMessageText(message);
+            messageContainer.appendChild(messageText);
+            chatMessages.appendChild(messageContainer);
+        }
+
+        function appendBotMessage(message) {
+            const messageContainer = createMessageContainer('bot');
+            const messageText = createMessageText(message);
+            messageContainer.appendChild(messageText);
+            chatMessages.appendChild(messageContainer);
+        }
+
+        function createMessageContainer(sender) {
+            const container = document.createElement('div');
+            container.classList.add('message', `message-${sender}`);
+            return container;
+        }
+
+        function createMessageText(message) {
+            const messageText = document.createElement('div');
+            messageText.classList.add('message-text');
+            messageText.textContent = message;
+            return messageText;
+        }
+    </script>
+</body>
+</html>
