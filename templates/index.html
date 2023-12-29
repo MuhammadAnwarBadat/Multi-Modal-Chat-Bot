@@ -1,165 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100vh;
-            justify-content: flex-end;
-        }
-        .container{
-            width: 70%;
-            height: 100vh;
-            justify-content: flex-end;
-            margin: 20px auto;
-            background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            /* border: 1px solid red; */
-            align-items: center;
-        }
-
-        #chat-container {
-            width: 90%;
-          margin: 10px auto;
-           /* border: 1px solid green; */
-          
-            background-color: #fff;
-           
-       
-            border-radius: 8px;
-            overflow: hidden;
-           margin-bottom: 22px;
-            display: flex;
-            flex-direction: column;
-        
-        }
-
-        #chat-messages {
-            padding: 20px;
-            overflow-y: auto;
-            max-height: 400px;
-        }
-
-        .message {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .message-user {
-            justify-content: flex-end;
-        }
-
-        .message-bot {
-            justify-content: flex-start;
-        }
-
-        .message-text {
-            padding: 10px;
-            border-radius: 8px;
-            max-width: 70%;
-            word-wrap: break-word;
-        }
-
-        .user-icon, .bot-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .user-icon {
-            background-color: #3498db;
-        }
-
-        .bot-icon {
-            background-color: #2ecc71;
-        }
-
-        #user-input {
-            padding: 10px;
-            width: 100%;
-            border: none;
-            outline: none;
-            border-top: 1px solid #ddd;
-        }
-    </style>
+    <title>Chatbot | S4S</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
-    <div class="container">
+    <div id="chat-window">
+        <div class="main-title">Chatbot With Different Inputs</div>
+        <div id="chat-messages"></div>
+        <form id="chat-form">
+            <div class="containerIcons">
+                <div class="icons">
 
-        <div id="chat-container">
-            
-            <div class="chatbot">
-                
+                    <label for="pdf">
+                        <i class="fa fa-file" aria-hidden="true"></i>
+                        Upload Pdf</label>
+                    <input type="file" id="pdf" style="display: none;">
 
-                <div id="chat-messages">
-                    <!-- Chat messages will be dynamically added here -->
                 </div>
+                <div class="icons">
+
+                    <label for="img">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                        Upload Img</label>
+                    <input type="file" id="img" style="display: none;">
+
+                </div>
+                <div class="icons">
+
+                    <label for="audio">
+                        <i class="fa fa-microphone" aria-hidden="true"></i>
+                        Audio</label>
+                    <input type="file" id="audio" style="display: none;">
+
+                </div>
+
+
+
             </div>
-            <input type="text" id="user-input" placeholder="Type your question...">
-        </div>
+            <div class="prompt">
+
+                <input type="text" id="chat-input" autocomplete="off" placeholder="Type your message here" required />
+                <button type="submit">Send</button>
+            </div>
+        </form>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.3/axios.min.js"></script>
+    <script>const form = document.getElementById("chat-form");
+        const input = document.getElementById("chat-input");
+        const messages = document.getElementById("chat-messages");
+        const apiKey = "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";
 
-    <script>
-        // JavaScript for handling user input and displaying chat messages
-        const userInput = document.getElementById('user-input');
-        const chatMessages = document.getElementById('chat-messages');
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const message = input.value;
+            input.value = "";
 
-        userInput.addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                const userMessage = userInput.value.trim();
-                if (userMessage !== '') {
-                    // You can add logic here to process the user message and get the bot's response
-                    const botResponse = 'This is a sample response from the chatbot.';
-                    appendUserMessage(userMessage);
-                    appendBotMessage(botResponse);
-                    userInput.value = '';
-                    // Scroll to the bottom of the chat window
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
+            messages.innerHTML += `<div class="message user-message">
+      <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user icon"> <span>${message}</span>
+      </div>`;
+
+
+            const response = await axios.post(
+                "https://api.openai.com/v1/completions",
+                {
+                    prompt: message,
+                    model: "text-davinci-003",
+                    temperature: 0,
+                    max_tokens: 1000,
+                    top_p: 1,
+                    frequency_penalty: 0.0,
+                    presence_penalty: 0.0,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${apiKey}`,
+                    },
                 }
-            }
-        });
+            );
+            const chatbotResponse = response.data.choices[0].text;
 
-        function appendUserMessage(message) {
-            const messageContainer = createMessageContainer('user');
-            const messageText = createMessageText(message);
-            messageContainer.appendChild(messageText);
-            chatMessages.appendChild(messageContainer);
-        }
+            console.log(chatbotResponse);
+            console.log(response)
 
-        function appendBotMessage(message) {
-            const messageContainer = createMessageContainer('bot');
-            const messageText = createMessageText(message);
-            messageContainer.appendChild(messageText);
-            chatMessages.appendChild(messageContainer);
-        }
-
-        function createMessageContainer(sender) {
-            const container = document.createElement('div');
-            container.classList.add('message', `message-${sender}`);
-            return container;
-        }
-
-        function createMessageText(message) {
-            const messageText = document.createElement('div');
-            messageText.classList.add('message-text');
-            messageText.textContent = message;
-            return messageText;
-        }
-    </script>
+            messages.innerHTML += `<div class="message bot-message">
+      <img src="https://camo.githubusercontent.com/2f1065f3cc62c661aa1ff2eba71bcbc876a11be3ebc6ee4e06015aa565c0ba14/68747470733a2f2f63646e2e69636f6e73636f75742e636f6d2f69636f6e2f7072656d69756d2f706e672d3531322d7468756d622f6f70656e61692d313532333636342d313239303230322e706e67" alt="bot icon"> <span>${chatbotResponse}
+      
+      </span>
+      </div>`;
+        });</script>
 </body>
+
 </html>

@@ -1,15 +1,21 @@
 body {
     font-family: "Open Sans", sans-serif;
     background-color: #f7efe5;
+    border: 1px solid red;
+   
   }
-  
+
   #chat-window {
-    width: 500px;
+    width: 800px;
     margin: 0 auto;
     background-color: #312e33;
     padding: 20px;
     border-radius: 10px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
+    height: 5%;
+    overflow: hidden;
+    border: 1px solid red;
+   
     
   }
   
@@ -25,6 +31,9 @@ body {
   #chat-form {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    width: 100%;
+    /* border: 1px solid green; */
   }
   
   #chat-input {
@@ -33,7 +42,44 @@ body {
     margin-right: 10px;
     border-radius: 10px;
     border: 1px solid #ccc;
+    width: 90%;
   }
+  .prompt{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+  }
+  .containerIcons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+  }
+ .icons{
+    width:100px;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+ }
+ .icons label{
+    display: flex;
+    flex-direction:column;
+    gap: 10px;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+
+ }
+ .icons label i{
+    color: white;
+    font-size: 25px;
+
+ }
   
   button[type="submit"] {
     padding: 10px 20px;
