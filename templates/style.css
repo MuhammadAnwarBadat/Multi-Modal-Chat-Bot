@@ -1,7 +1,7 @@
 body {
     font-family: "Open Sans", sans-serif;
     background-color: #f7efe5;
-    border: 1px solid red;
+    /* border: 1px solid red; */
    
   }
 
@@ -14,7 +14,7 @@ body {
     /* margin-top: 50px; */
     height: 5%;
     overflow: hidden;
-    border: 1px solid red;
+    /* border: 1px solid red; */
    
     
   }
