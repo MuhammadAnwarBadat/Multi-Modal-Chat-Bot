@@ -3,6 +3,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import os
 
+# test
 app = Flask(__name__)
 
 def load_or_download_model(local_dir, model_name):
